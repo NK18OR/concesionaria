@@ -11,25 +11,65 @@ let concesionaria = {
    }return null;
    },
    venderAuto: function(patente){
-      auto = this.buscarAuto(patente);
+      let auto = this.buscarAuto(patente);
       auto.vendido = true;
    },
    autosParaLaVenta:function(){
-      autosParaVender = this.autos.filter(function (vendidos) {
-         return vendidos.vendido == false;
-      })
+      let autosParaVender = this.autos.filter(function (auto) {
+         return auto.vendido == false;
+      }
+      )
       return autosParaVender;
    },
    autosNuevos: function(){
-      autoNuevo = this.autosParaLaVenta().filter(function(elemento){
-         return elemento.km < 100
-      })
+      let autoNuevo = this.autosParaLaVenta().filter(function(auto){
+         return auto.km <= 100
+      }
+      )
       return autoNuevo
    },
-   listaDeVentas: 
-   
+
+   listaDeVentas: function(){
+      let acumulador = [] 
+      this.autos.filter(function(auto){
+         if(auto.vendido == true){
+         acumulador.push(auto.precio)}
+      }
+      )
+      return acumulador
+   },
+   totalDeVentas: function(){
+      montoTotal = this.listaDeVentas().reduce(function(acumulador, preciosDeLaLista){
+         return acumulador + preciosDeLaLista
+      },0
+      )
+      return montoTotal
+   },
+   puedeComprar: function(auto, persona){
+      let condicion = (persona.capacidadDePagoTotal >= auto.precio) && (persona.capacidadDePagoEnCuotas * auto.cuotas >= auto.precio )
+      let resultado = condicion == true ? true : false;
+      return resultado
    }
-//console.log(concesionaria.venderAuto("JJK116"));
-//console.log(concesionaria.autos);
-//console.log(concesionaria.autosParaLaVenta());
-//=console.log(concesionaria.autosNuevos());
+}
+
+// console.log(concesionaria.venderAuto("JJK116"));
+// console.log(concesionaria.autos);
+// console.log(concesionaria.autosParaLaVenta());
+// console.log(concesionaria.autosNuevos());
+// console.log(concesionaria.listaDeVentas());
+// console.log(concesionaria.totalDeVentas());
+// console.log(concesionaria.puedeComprar({
+//    marca : "Ford",
+//    modelo : "Fiesta ",
+//    precio : 150000,
+//    km: 200,
+//    color : "Azul",
+//    cuotas : 12,
+//    anio : 2019,
+//    patente : "APL123",
+//    vendido : false
+// },{
+//    nombre: "Juan",
+//    capacidadDePagoEnCuotas: 100,
+//    capacidadDePagoTotal: 100000000
+//    }));
