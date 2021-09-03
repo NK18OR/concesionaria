@@ -49,8 +49,19 @@ let concesionaria = {
       let condicion = (persona.capacidadDePagoTotal >= auto.precio) && (persona.capacidadDePagoEnCuotas * auto.cuotas >= auto.precio )
       let resultado = condicion == true ? true : false;
       return resultado
+   },
+   autosQuePuedeComprar: function(persona){
+      let autosParaVender = this.autosParaLaVenta()
+      let puedeComprar = this.puedeComprar
+      let autosParaComprar =[]
+      autosParaVender.filter(function(auto){
+         if(puedeComprar(auto,persona)==true){
+         autosParaComprar.push(auto)}
+      }
+      )
+      return autosParaComprar
+      }
    }
-}
 
 // console.log(concesionaria.venderAuto("JJK116"));
 // console.log(concesionaria.autos);
@@ -73,3 +84,8 @@ let concesionaria = {
 //    capacidadDePagoEnCuotas: 100,
 //    capacidadDePagoTotal: 100000000
 //    }));
+console.log(concesionaria.autosQuePuedeComprar({
+      nombre: "Juan",
+      capacidadDePagoEnCuotas: 10011,
+      capacidadDePagoTotal: 100000000
+      }));
